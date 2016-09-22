@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Form</title>
+	 <script src="jquery-3.1.0.min.js"></script>
+	<!-- <script type="text/javascript" src="script.js"></script> -->
+</head>
+<style type="text/css">
+	.hidden{
+		display: none;
+	}
+	.visible{
+		display: block;
+	}
+	.txtRed{
+		color: red;
+	}
+</style>
+<body>
+<form id="idForm" action="">
+	<label>First Name:</label>	
+	<input type="text" id="fName" name="fname" value="tyui"><label id="fname" class="txtRed hidden">* Mandatory</label>
+	<br>
+	<label>Last Name:</label>
+	<input type="text" id="lName" name="lname"><label id="lname" class="txtRed hidden">* Mandatory</label>
+	<br><label>Email:</label>
+	<input type="email" id="Email" name="email"><label id="email" class="txtRed hidden">* Mandatory</label>
+	<br><label>Phone Number:</label>
+	<input type="tel" id="contact" name="num"><label id="phone" class="txtRed hidden">* Mandatory</label>
+	<br>
+	<button id="submitButtonId"><a>Submit</a></button>
+	<button id="updateButtonId"><a>Update</a></button>
+	<div id="error" class="hidden"></div>
+</form>
+
+</body>
+</html>
+<script>
+	$("#submitButtonId").click(function() {
+
+    var url = "demo.php";
+
+    $.ajax({
+           type: "POST",
+           url: url,
+           data: $("#idForm").serialize(),
+           success: function(data)
+           {	
+               $("#error").removeClass('hidden').addClass('visible');
+               var D =JSON.parse(data) 
+               console.log(D.fname)
+               if (D.fname=="valid") {
+               	D.status="success";
+               	$("#fname").removeClass('visible').addClass('hidden');
+               	$("#fname").html(data);
+               }
+               else{
+               	D.status="fail";
+
+               	$("#fname").html(D.fname);
+               	$("#fname").removeClass('hidden').addClass('visible');
+               }
+            if (D.lname=="valid") {
+               	D.status="success";
+               	$("#lname").html(data);
+               	$("#lname").removeClass('visible').addClass('hidden');
+               }
+               else{
+               	D.status="fail";
+               	$("#lname").html(data);
+               	$("#lname").html(D.lname);
+               	$("#lname").removeClass('hidden').addClass('visible');
+               }
+            if (D.phone=="valid") {
+               	D.status="success";
+               	$("#phone").html(data);
+               	$("#phone").removeClass('visible').addClass('hidden');
+               }
+               else{
+               	D.status="fail";
+               	$("#phone").html(data);
+               	$("#phone").html(D.phone);
+               	$("#phone").removeClass('hidden').addClass('visible');
+               }
+            if (D.email=="valid") {
+               	D.status="success";
+               	$("#email").html(data);
+               	$("#email").removeClass('visible').addClass('hidden');
+               }
+               else{
+               	D.status="fail";
+               	$("#email").html(data);
+               	$("#email").html(D.email);
+               	$("#email").removeClass('hidden').addClass('visible');
+               }
+            if (D.status=="success") {
+               	$("#error").html(" Perfect!!!!")
+               }
+               else{
+               	$("#error").html("enter the data properly");
+               }
+                           
+           }
+         });
+
+    return false; 
+});
+	$("#updateButtonId").click(function() {
+
+    var url = "demo.php";
+
+    $.ajax({
+           type: "GET",
+           url: url,
+           data: $("#idForm").serialize(),
+           success: function(data)
+           {	
+           	 var mydata =JSON.parse(data) 
+             console.log($("#fName").outerText="dfghj")
+             $("#fName")[0].value=mydata.fname;
+             $("#lName")[0].value=mydata.lname;
+             $("#Email")[0].value=mydata.email;
+             $("#contact")[0].value=mydata.phone;
+             console.log($("#fName"))                  
+           }
+         });
+
+    return false; 
+});
+</script>
+<!-- sjsx 
+
+url = demo
+
+
+data = form data
+
+repse = 
+ -->
